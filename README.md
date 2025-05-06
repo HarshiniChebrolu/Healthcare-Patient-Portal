@@ -60,9 +60,7 @@ Patient-Management/
 - Authentication improvements
 - Patient reports and analytics
 
-## 📄 License
 
-This project is open-source and free to use under the [MIT License](LICENSE).
 
 ## 🤝 Contributing
 
