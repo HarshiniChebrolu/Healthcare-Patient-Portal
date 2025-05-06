@@ -76,11 +76,7 @@ Here are some cool enhancements you could add:
 
 ---
 
-## 📜 License
 
-This project is licensed under the [MIT License](LICENSE) — free to use, learn from, or contribute to! 🙌
-
----
 
 ## 🤝 Contributing
 
