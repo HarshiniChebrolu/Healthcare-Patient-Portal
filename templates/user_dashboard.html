@@ -1,0 +1,208 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    .dashboard-card {
+        background: rgb(243, 249, 247);
+        border-radius: 15px;
+        box-shadow: 0 4px 6px rgba(0, 102, 204, 0.1);
+        border: none;
+    }
+    
+    .file-upload-box {
+        border: 2px dashed var(--hospital-teal);
+        background: #f8f9fa;
+        padding: 2rem;
+        text-align: center;
+        border-radius: 12px;
+    }
+    
+    .appointment-card {
+        border-left: 4px solid var(--hospital-blue);
+        margin-bottom: 1rem;
+    }
+    
+    .form-section {
+        margin-bottom: 2rem;
+    }
+</style>
+
+<div class="container">
+    <h2 class="mb-4"><i class="bi bi-person-circle"></i> Welcome, {{ session.username }}</h2>
+    
+    <ul class="nav nav-tabs" id="dashboardTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="files-tab" data-bs-toggle="tab" 
+                    data-bs-target="#files" type="button" role="tab">
+                <i class="bi bi-files"></i> Medical Files
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="appointments-tab" data-bs-toggle="tab" 
+                    data-bs-target="#appointments" type="button" role="tab">
+                <i class="bi bi-calendar-check"></i> Appointments
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" href="{{ url_for('manage_reminder_profiles') }}" role="tab">
+                <i class="bi bi-bell-fill"></i> Reminders
+            </a>
+        </li>
+    </ul>
+
+    <div class="tab-content mt-4">
+        <!-- Files Tab -->
+        <div class="tab-pane fade show active" id="files" role="tabpanel">
+            <div class="dashboard-card">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-upload"></i> Upload Medical Records</h5>
+                    <div class="file-upload-box">
+                        <form method="POST" enctype="multipart/form-data">
+                            <div class="mb-3">
+                                <input type="file" class="form-control hospital-input" name="file" required>
+                            </div>
+                            <button type="submit" class="btn hospital-btn-primary">
+                                <i class="bi bi-cloud-arrow-up"></i> Upload File
+                            </button>
+                        </form>
+                    </div>
+
+                    <h4 class="mt-4"><i class="bi bi-folder"></i> Your Files</h4>
+                    <div class="list-group">
+                        {% for file in files %}
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <span><i class="bi bi-file-earmark"></i> {{ file }}</span>
+                            <form method="POST" action="{{ url_for('delete_file', filename=file) }}">
+                                <button type="submit" class="btn btn-danger btn-sm">
+                                    <i class="bi bi-trash"></i> Delete
+                                </button>
+                            </form>
+                        </div>
+                        {% else %}
+                        <div class="list-group-item">
+                            <i class="bi bi-info-circle"></i> No files uploaded yet
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Appointments Tab -->
+        <div class="tab-pane fade" id="appointments" role="tabpanel">
+            <div class="dashboard-card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h4><i class="bi bi-plus-circle"></i> Schedule New Appointment</h4>
+                            <form method="POST" class="form-section">
+                                <input type="hidden" name="doctor">
+                                <input type="hidden" name="room">
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">Doctor</label>
+                                    <select class="form-select hospital-input" name="doctor" required>
+                                        <option value="">Select Doctor</option>
+                                        {% for doctor in doctors %}
+                                        <option value="{{ doctor }}">{{ doctor }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">Room</label>
+                                    <select class="form-select hospital-input" name="room" required>
+                                        <option value="">Select Room</option>
+                                        {% for room in rooms %}
+                                        <option value="{{ room }}">{{ room }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">Date</label>
+                                    <input type="date" class="form-control hospital-input" name="date" required>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">Time</label>
+                                    <input type="time" class="form-control hospital-input" name="time" required>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">Duration (minutes)</label>
+                                    <input type="number" class="form-control hospital-input" name="duration" value="30" min="15" step="15">
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">Reason</label>
+                                    <textarea class="form-control hospital-input" name="reason" rows="3"></textarea>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">Reminder Profile</label>
+                                    <select class="form-select hospital-input" name="reminder_profile">
+                                        <option value="">No reminder</option>
+                                        {% for profile in reminder_profiles %}
+                                        <option value="{{ profile.id }}">{{ profile.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="needs_follow_up" id="needsFollowUp" value="yes">
+                                        <label class="form-check-label" for="needsFollowUp">
+                                            Needs Follow-up Appointment
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">Recurring Appointment</label>
+                                    <select class="form-select hospital-input" name="recurring">
+                                        <option value="no">One-time appointment</option>
+                                        <option value="daily-3">Daily for 3 appointments</option>
+                                        <option value="weekly-4">Weekly for 4 appointments</option>
+                                    </select>
+                                </div>
+                                
+                                <button type="submit" class="btn hospital-btn-primary">
+                                    <i class="bi bi-calendar-plus"></i> Schedule Appointment
+                                </button>
+                            </form>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <h4><i class="bi bi-calendar-event"></i> Your Appointments</h4>
+                            {% if appointments %}
+                                {% for appointment in appointments %}
+                                <div class="card appointment-card mb-2">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ appointment.doctor }}</h5>
+                                        <p class="card-text">
+                                            <strong>Date:</strong> {{ appointment.date|datetimeformat }}<br>
+                                            <strong>Time:</strong> {{ appointment.time }}<br>
+                                            <strong>Reason:</strong> {{ appointment.reason }}<br>
+                                            <strong>Status:</strong> <span class="badge bg-primary">{{ appointment.status }}</span>
+                                        </p>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="alert alert-info">
+                                    <i class="bi bi-info-circle"></i> No appointments scheduled yet.
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a href="{{ url_for('logout') }}" class="btn hospital-btn-secondary mt-3">
+        <i class="bi bi-box-arrow-left"></i> Logout
+    </a>
+</div>
+{% endblock %}

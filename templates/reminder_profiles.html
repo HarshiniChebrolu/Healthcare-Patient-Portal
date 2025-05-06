@@ -1,0 +1,230 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">
+            <i class="bi bi-bell-fill me-2"></i>Reminder Profiles
+        </h2>
+        <a href="{{ url_for('user_dashboard') }}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Back to Dashboard
+        </a>
+    </div>
+
+    <div class="row">
+        <!-- Create New Profile Card -->
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">
+                        <i class="bi bi-plus-circle"></i> Create New Profile
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <form method="POST" id="profileForm">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Profile Name</label>
+                            <input type="text" class="form-control form-control-lg" 
+                                   name="profile_name" required
+                                   placeholder="e.g. Standard Reminders">
+                        </div>
+
+                        <h5 class="mt-4 mb-3 fw-bold">
+                            <i class="bi bi-alarm"></i> Reminder Settings
+                        </h5>
+
+                        <div id="reminderSteps">
+                            <div class="reminder-step mb-3 p-3 bg-light rounded">
+                                <div class="row g-3">
+                                    <div class="col-md-4">
+                                        <label class="form-label">Time Before</label>
+                                        <select class="form-select" name="reminder_time[]" required>
+                                            <option value="" disabled selected>Select time</option>
+                                            <option value="15">15 minutes</option>
+                                            <option value="30">30 minutes</option>
+                                            <option value="60">1 hour</option>
+                                            <option value="1440">1 day</option>
+                                            <option value="2880">2 days</option>
+                                            <option value="10080">1 week</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label">Notification Type</label>
+                                        <select class="form-select" name="reminder_type[]" required>
+                                            <option value="" disabled selected>Select type</option>
+                                            <option value="email">Email</option>
+                                            <option value="sms">SMS</option>
+                                            <option value="both">Both</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label">Custom Message</label>
+                                        <textarea class="form-control" name="custom_message[]" 
+                                                  rows="2" required
+                                                  placeholder="Your appointment reminder..."></textarea>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-sm btn-danger mt-2 remove-step d-none">
+                                    <i class="bi bi-trash"></i> Remove
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-3">
+                            <button type="button" class="btn btn-outline-primary" id="addReminderBtn">
+                                <i class="bi bi-plus-circle"></i> Add Another Reminder
+                            </button>
+                            <button type="submit" class="btn btn-primary px-4">
+                                <i class="bi bi-save"></i> Save Profile
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Existing Profiles Card -->
+        <div class="col-lg-6">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0">
+                        <i class="bi bi-list-check"></i> Your Reminder Profiles
+                    </h4>
+                </div>
+                <div class="card-body">
+                    {% if reminder_profiles %}
+                        <div class="accordion" id="profilesAccordion">
+                            {% for profile in reminder_profiles %}
+                            <div class="accordion-item mb-2 border-0 shadow-sm">
+                                <h2 class="accordion-header" id="heading{{ loop.index }}">
+                                    <button class="accordion-button {% if not loop.first %}collapsed{% endif %}" 
+                                            type="button" data-bs-toggle="collapse" 
+                                            data-bs-target="#collapse{{ loop.index }}" 
+                                            aria-expanded="{{ 'true' if loop.first else 'false' }}" 
+                                            aria-controls="collapse{{ loop.index }}">
+                                        <div class="d-flex justify-content-between w-100 align-items-center">
+                                            <span>
+                                                <i class="bi bi-bell me-2"></i>
+                                                <strong>{{ profile.name }}</strong>
+                                            </span>
+                                            {% if profile.id == default_profile %}
+                                                <span class="badge bg-success">Default</span>
+                                            {% endif %}
+                                        </div>
+                                    </button>
+                                </h2>
+                                <div id="collapse{{ loop.index }}" 
+                                     class="accordion-collapse collapse {% if loop.first %}show{% endif %}" 
+                                     aria-labelledby="heading{{ loop.index }}" 
+                                     data-bs-parent="#profilesAccordion">
+                                    <div class="accordion-body">
+                                        <ul class="list-group list-group-flush">
+                                            {% for reminder in profile.reminders %}
+                                            <li class="list-group-item">
+                                                <div class="d-flex justify-content-between">
+                                                    <div>
+                                                        <span class="badge bg-info me-2">
+                                                            {{ reminder.time }} min before
+                                                        </span>
+                                                        <span class="text-capitalize">{{ reminder.type }}</span>
+                                                    </div>
+                                                    <small class="text-muted">
+                                                        {{ reminder.message|truncate(30) }}
+                                                    </small>
+                                                </div>
+                                            </li>
+                                            {% endfor %}
+                                        </ul>
+                                        <div class="d-flex justify-content-end mt-3">
+                                            {% if profile.id != default_profile %}
+                                            <form method="POST" action="{{ url_for('set_default_profile', profile_id=profile.id) }}" 
+                                                  class="me-2">
+                                                <button type="submit" class="btn btn-sm btn-outline-success">
+                                                    <i class="bi bi-check-circle"></i> Set as Default
+                                                </button>
+                                            </form>
+                                            {% endif %}
+                                            <form method="POST" onsubmit="return confirm('Are you sure you want to delete this profile?');">
+                                                <input type="hidden" name="delete" value="{{ profile.id }}">
+                                                <button type="submit" class="btn btn-sm btn-outline-danger">
+                                                    <i class="bi bi-trash"></i> Delete
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="text-center py-4">
+                            <i class="bi bi-bell-slash display-5 text-muted mb-3"></i>
+                            <h5 class="text-muted">No reminder profiles created yet</h5>
+                            <p class="text-muted">Create your first reminder profile using the form on the left</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Add new reminder step
+    document.getElementById('addReminderBtn').addEventListener('click', function() {
+        const newStep = document.querySelector('.reminder-step').cloneNode(true);
+        newStep.querySelectorAll('input, textarea, select').forEach(el => {
+            if (el.tagName === 'SELECT') el.selectedIndex = 0;
+            if (el.tagName === 'TEXTAREA') el.value = '';
+        });
+        newStep.querySelector('.remove-step').classList.remove('d-none');
+        document.getElementById('reminderSteps').appendChild(newStep);
+        
+        // Scroll to the new step
+        newStep.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+
+    // Remove reminder step
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('remove-step')) {
+            const step = e.target.closest('.reminder-step');
+            if (document.querySelectorAll('.reminder-step').length > 1) {
+                step.remove();
+            } else {
+                // Reset the first step if trying to remove it
+                step.querySelectorAll('input, textarea, select').forEach(el => {
+                    if (el.tagName === 'SELECT') el.selectedIndex = 0;
+                    if (el.tagName === 'TEXTAREA') el.value = '';
+                });
+            }
+        }
+    });
+
+    // Form validation
+    document.getElementById('profileForm').addEventListener('submit', function(e) {
+        const steps = document.querySelectorAll('.reminder-step');
+        let isValid = true;
+        
+        steps.forEach(step => {
+            const inputs = step.querySelectorAll('input, textarea, select');
+            inputs.forEach(input => {
+                if (!input.value) {
+                    input.classList.add('is-invalid');
+                    isValid = false;
+                } else {
+                    input.classList.remove('is-invalid');
+                }
+            });
+        });
+        
+        if (!isValid) {
+            e.preventDefault();
+            alert('Please fill in all reminder fields');
+        }
+    });
+});
+</script>
+{% endblock %}

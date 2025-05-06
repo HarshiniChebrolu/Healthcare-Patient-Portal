@@ -1,0 +1,429 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card registration-card border-0 shadow-lg">
+                <div class="card-header registration-header bg-primary text-white border-0 py-4">
+                    <div class="d-flex align-items-center">
+                        <div class="me-3">
+                            <i class="bi bi-heart-pulse fs-1"></i>
+                        </div>
+                        <div>
+                            <h3 class="mb-1">Patient Registration</h3>
+                            <p class="mb-0 opacity-75">Join our healthcare network for personalized care</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card-body p-4 p-md-5">
+                    <form method="POST" class="needs-validation" novalidate>
+                        <!-- Progress Indicator -->
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <span class="step-indicator active">1</span>
+                                <div class="progress flex-grow-1 mx-3" style="height: 6px;">
+                                    <div class="progress-bar bg-primary" role="progressbar" style="width: 33%"></div>
+                                </div>
+                                <span class="step-indicator">2</span>
+                                <div class="progress flex-grow-1 mx-3" style="height: 6px;">
+                                    <div class="progress-bar bg-secondary" role="progressbar" style="width: 0%"></div>
+                                </div>
+                                <span class="step-indicator">3</span>
+                            </div>
+                        </div>
+
+                        <!-- Personal Information Section -->
+                        <div class="mb-4">
+                            <div class="section-header mb-3 d-flex align-items-center">
+                                <div class="icon-circle bg-light-primary me-3">
+                                    <i class="bi bi-person-vcard-fill text-primary"></i>
+                                </div>
+                                <h5 class="mb-0">Personal Information</h5>
+                            </div>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control hospital-input" id="first_name" 
+                                               name="first_name" placeholder="First Name" required>
+                                        <label for="first_name"><i class="bi bi-person-fill me-2 text-muted"></i>First Name</label>
+                                        <div class="invalid-feedback">
+                                            Please provide your first name
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control hospital-input" id="surname" 
+                                               name="surname" placeholder="Surname" required>
+                                        <label for="surname"><i class="bi bi-person-video3 me-2 text-muted"></i>Last Name</label>
+                                        <div class="invalid-feedback">
+                                            Please provide your last name
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Contact Information Section -->
+                        <div class="mb-4">
+                            <div class="section-header mb-3 d-flex align-items-center">
+                                <div class="icon-circle bg-light-primary me-3">
+                                    <i class="bi bi-telephone-fill text-primary"></i>
+                                </div>
+                                <h5 class="mb-0">Contact Information</h5>
+                            </div>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="email" class="form-control hospital-input" id="email" 
+                                               name="email" placeholder="Email Address" required>
+                                        <label for="email"><i class="bi bi-envelope-fill me-2 text-muted"></i>Email Address</label>
+                                        <div class="invalid-feedback">
+                                            Please provide a valid email
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="tel" class="form-control hospital-input" id="phone" 
+                                               name="phone" pattern="[0-9]{10}" placeholder="Phone Number" required>
+                                        <label for="phone"><i class="bi bi-phone-fill me-2 text-muted"></i>Phone Number</label>
+                                        <div class="invalid-feedback">
+                                            Please provide a 10-digit phone number
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Medical Information Section -->
+                        <div class="mb-4">
+                            <div class="section-header mb-3 d-flex align-items-center">
+                                <div class="icon-circle bg-light-primary me-3">
+                                    <i class="bi bi-clipboard2-pulse-fill text-primary"></i>
+                                </div>
+                                <h5 class="mb-0">Medical Information</h5>
+                            </div>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="date" class="form-control hospital-input" id="dob" 
+                                               name="dob" placeholder="Date of Birth" required>
+                                        <label for="dob"><i class="bi bi-calendar-heart me-2 text-muted"></i>Date of Birth</label>
+                                        <div class="invalid-feedback">
+                                            Please provide your date of birth
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <select class="form-select hospital-input" id="blood_type" name="blood_type" required>
+                                            <option value="" selected disabled>Select Blood Type</option>
+                                            <option value="A+">A+</option>
+                                            <option value="A-">A-</option>
+                                            <option value="B+">B+</option>
+                                            <option value="B-">B-</option>
+                                            <option value="AB+">AB+</option>
+                                            <option value="AB-">AB-</option>
+                                            <option value="O+">O+</option>
+                                            <option value="O-">O-</option>
+                                        </select>
+                                        <label for="blood_type"><i class="bi bi-droplet-fill me-2 text-muted"></i>Blood Type</label>
+                                        <div class="invalid-feedback">
+                                            Please select your blood type
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Login Credentials Section -->
+                        <div class="mb-4">
+                            <div class="section-header mb-3 d-flex align-items-center">
+                                <div class="icon-circle bg-light-primary me-3">
+                                    <i class="bi bi-shield-lock-fill text-primary"></i>
+                                </div>
+                                <h5 class="mb-0">Account Security</h5>
+                            </div>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control hospital-input" id="username" 
+                                               name="username" placeholder="Username" required>
+                                        <label for="username"><i class="bi bi-person-badge-fill me-2 text-muted"></i>Username</label>
+                                        <div class="invalid-feedback">
+                                            Please choose a username
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="password" class="form-control hospital-input" id="password" 
+                                               name="password" placeholder="Password" required minlength="8">
+                                        <label for="password"><i class="bi bi-key-fill me-2 text-muted"></i>Password</label>
+                                        <div class="invalid-feedback">
+                                            Password must be at least 8 characters
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-12">
+                                    <div class="password-strength mt-2">
+                                        <div class="progress" style="height: 5px;">
+                                            <div class="progress-bar bg-danger" role="progressbar" style="width: 25%"></div>
+                                        </div>
+                                        <small class="text-muted">Password strength: Weak</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Emergency Contact -->
+                        <div class="mb-4">
+                            <div class="section-header mb-3 d-flex align-items-center">
+                                <div class="icon-circle bg-light-primary me-3">
+                                    <i class="bi bi-exclamation-triangle-fill text-primary"></i>
+                                </div>
+                                <h5 class="mb-0">Emergency Contact</h5>
+                            </div>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control hospital-input" id="emergency_name" 
+                                               name="emergency_name" placeholder="Emergency Contact Name" required>
+                                        <label for="emergency_name"><i class="bi bi-person-arms-up me-2 text-muted"></i>Contact Name</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="tel" class="form-control hospital-input" id="emergency_phone" 
+                                               name="emergency_phone" pattern="[0-9]{10}" placeholder="Emergency Phone" required>
+                                        <label for="emergency_phone"><i class="bi bi-telephone-plus-fill me-2 text-muted"></i>Contact Phone</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Terms and Submit Section -->
+                        <div class="mb-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="terms" required>
+                                <label class="form-check-label" for="terms">
+                                    I agree to the <a href="#" class="text-primary">Terms of Service</a>, 
+                                    <a href="#" class="text-primary">Privacy Policy</a>, and 
+                                    <a href="#" class="text-primary">HIPAA Compliance</a>
+                                </label>
+                                <div class="invalid-feedback">
+                                    You must agree before submitting
+                                </div>
+                            </div>
+                            <div class="form-check mt-2">
+                                <input class="form-check-input" type="checkbox" id="newsletter">
+                                <label class="form-check-label" for="newsletter">
+                                    Subscribe to our health newsletter for tips and updates
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg py-3">
+                                <i class="bi bi-file-earmark-medical-fill me-2"></i>Complete Registration
+                            </button>
+                        </div>
+
+                        <div class="text-center mt-4">
+                            <p class="mb-0 text-muted">Already have an account? 
+                                <a href="{{ url_for('login') }}" class="text-primary fw-bold">Login here</a>
+                            </p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .registration-card {
+        border-radius: 15px;
+        overflow: hidden;
+    }
+    
+    .registration-header {
+        border-radius: 15px 15px 0 0 !important;
+    }
+    
+    .hospital-input {
+        border-left: 3px solid #0d6efd;
+        transition: all 0.3s;
+    }
+    
+    .hospital-input:focus {
+        border-left: 3px solid #0d6efd;
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+    }
+    
+    .section-header {
+        padding-bottom: 10px;
+        border-bottom: 1px solid #e0e0e0;
+    }
+    
+    .icon-circle {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .bg-light-primary {
+        background-color: rgba(13, 110, 253, 0.1);
+    }
+    
+    .step-indicator {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background-color: #dee2e6;
+        color: #6c757d;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+    }
+    
+    .step-indicator.active {
+        background-color: #0d6efd;
+        color: white;
+    }
+    
+    .password-strength {
+        transition: all 0.3s;
+    }
+    
+    .btn-register {
+        background: linear-gradient(135deg, #0d6efd, #6610f2);
+        border: none;
+        transition: all 0.3s;
+    }
+    
+    .btn-register:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(13, 110, 253, 0.3);
+    }
+    
+    .was-validated .form-control:invalid, .form-control.is-invalid {
+        border-left: 3px solid #dc3545;
+    }
+</style>
+
+<script>
+    // Form validation
+    (function() {
+        'use strict';
+        window.addEventListener('load', function() {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation');
+            
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+    })();
+    
+    // Password strength indicator
+    document.getElementById('password').addEventListener('input', function() {
+        const password = this.value;
+        const strengthBar = document.querySelector('.password-strength .progress-bar');
+        const strengthText = document.querySelector('.password-strength small');
+        
+        // Reset
+        strengthBar.style.width = '0%';
+        strengthBar.classList.remove('bg-danger', 'bg-warning', 'bg-success');
+        
+        if (password.length === 0) {
+            strengthText.textContent = '';
+            return;
+        }
+        
+        // Calculate strength
+        let strength = 0;
+        
+        // Length
+        if (password.length > 8) strength += 1;
+        if (password.length > 12) strength += 1;
+        
+        // Complexity
+        if (/[A-Z]/.test(password)) strength += 1;
+        if (/[0-9]/.test(password)) strength += 1;
+        if (/[^A-Za-z0-9]/.test(password)) strength += 1;
+        
+        // Update UI
+        if (strength <= 2) {
+            strengthBar.style.width = '25%';
+            strengthBar.classList.add('bg-danger');
+            strengthText.textContent = 'Password strength: Weak';
+        } else if (strength <= 4) {
+            strengthBar.style.width = '50%';
+            strengthBar.classList.add('bg-warning');
+            strengthText.textContent = 'Password strength: Moderate';
+        } else {
+            strengthBar.style.width = '100%';
+            strengthBar.classList.add('bg-success');
+            strengthText.textContent = 'Password strength: Strong';
+        }
+    });
+    
+    // Calculate age from date of birth
+    // Update your age calculation script to this:
+document.getElementById('dob').addEventListener('change', function() {
+    const dob = new Date(this.value);
+    if (isNaN(dob.getTime())) {  // Invalid date
+        document.getElementById('age').value = '';
+        return;
+    }
+    
+    const today = new Date();
+    let age = today.getFullYear() - dob.getFullYear();
+    const m = today.getMonth() - dob.getMonth();
+    
+    if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
+        age--;
+    }
+    
+    document.getElementById('age').value = age;
+    document.getElementById('age').dispatchEvent(new Event('input')); // Trigger validation
+});
+
+// Add this to ensure age is validated when form submits
+document.querySelector('form').addEventListener('submit', function(e) {
+    if (!document.getElementById('age').value) {
+        e.preventDefault();
+        document.getElementById('dob').focus();
+        alert('Please select your date of birth first');
+    }
+});
+    
+    
+    // Add animation to form elements
+    document.querySelectorAll('.hospital-input').forEach(input => {
+        input.addEventListener('focus', function() {
+            this.parentElement.classList.add('animate__animated', 'animate__pulse');
+        });
+        input.addEventListener('blur', function() {
+            this.parentElement.classList.remove('animate__animated', 'animate__pulse');
+        });
+    });
+</script>
+{% endblock %}

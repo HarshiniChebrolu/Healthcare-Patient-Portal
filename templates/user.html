@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="text-center p-5" style="min-height: 100vh; background-image: url('your-image-url.jpg'); background-size: center; background-position: center; background-repeat: no-repeat;">
+    <div style=" padding: 2rem; border-radius: 10px; display: inline-block;">
+        <h2 class="mb-4 display-4">Patient Portal</h2>
+        <form method="POST" class="d-flex flex-column align-items-center">
+            <button type="submit" name="new_user" class="btn btn-success btn-lg mb-3 w-50">New User</button>
+            <button type="submit" name="existing_user" class="btn btn-primary btn-lg mb-3 w-50">Existing User</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

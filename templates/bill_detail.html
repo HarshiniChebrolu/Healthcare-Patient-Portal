@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <div class="d-flex justify-content-between align-items-center">
+                <h4 class="mb-0">Bill Details</h4>
+                <span class="badge bg-{% if bill.status == 'paid' %}success{% else %}danger{% endif %}">
+                    {{ bill.status|upper }}
+                </span>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <h5>Patient: {{ bill.patient }}</h5>
+                    <p class="mb-1">Bill ID: {{ bill.id }}</p>
+                    <p class="mb-1">Date: {{ bill.date }}</p>
+                </div>
+                <div class="col-md-6">
+                    <h5>Payment Details</h5>
+                    <p class="mb-1">Due Date: {{ bill.due_date }}</p>
+                    {% if bill.status == 'paid' %}
+                    <p class="mb-1">Payment Date: {{ bill.payment_date }}</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <table class="table table-bordered">
+                <thead class="table-light">
+                    <tr>
+                        <th>Description</th>
+                        <th class="text-end">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in bill.items %}
+                    <tr>
+                        <td>{{ item.description }}</td>
+                        <td class="text-end">{{ item.amount|currencyformat }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th class="text-end">Total:</th>
+                        <th class="text-end">{{ bill.total|currencyformat }}</th>
+                    </tr>
+                </tfoot>
+            </table>
+
+            {% if bill.status != 'paid' %}
+            <div class="text-end mt-3">
+                <form method="POST" action="{{ url_for('pay_bill', bill_id=bill.id) }}">
+                    <button type="submit" class="btn btn-success btn-lg">Pay Now</button>
+                </form>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

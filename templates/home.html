@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    body {
+        background-image: url('/static/images/s.jpg');
+        background-size: cover; /* Changed auto to cover */
+        background-position: center; /* Center the background */
+        background-repeat: no-repeat;
+        width: 100%;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+    }
+</style>
+<div class="text-center">
+    <h1 class="mb-4">Medico Hospital</h1>
+    <div class="d-grid gap-3 col-md-6 mx-auto">
+        <a href="{{ url_for('user') }}" class="btn btn-primary btn-lg">Patient</a>
+        <a href="{{ url_for('admin') }}" class="btn btn-secondary btn-lg">Admin</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,257 @@
+:root {
+    --hospital-blue: #00cc81;
+    --hospital-blue-dark: #2982db;
+    --hospital-teal: #00b4d8;
+    --hospital-teal-dark: #0096c7;
+    --hospital-green: #4CAF50;
+    --hospital-white: #f8fafc;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  html, body {
+    height: 100%;
+    background-image: url('../images/s.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+.login-page {
+    background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)),
+                url("../images/s.jpg") no-repeat center center fixed;
+    background-size: cover; /* Changed auto to cover */
+    width: 100%;
+    height: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 300px;
+    color: var(--hospital-blue-dark);
+}
+
+.login-container {
+    width: 100%;
+    max-width: 1000px;
+}
+
+.login-box {
+    display: flex;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.login-left {
+    flex: 1;
+    background: linear-gradient(135deg, var(--hospital-blue), var(--hospital-teal));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+}
+
+.login-image {
+    width: 100%;
+    max-width: 300px;
+    margin-bottom: 30px;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+}
+
+.login-left-text {
+    color: white;
+    text-align: center;
+}
+
+.login-left-text h3 {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.login-left-text p {
+    font-size: 1rem;
+    opacity: 0.9;
+}
+
+.login-right {
+    flex: 1;
+    padding: 40px;
+}
+
+.login-form {
+    max-width: 350px;
+    margin: 0 auto;
+}
+
+.login-title {
+    color: var(--hospital-blue);
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: 600;
+    position: relative;
+}
+
+.login-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 3px;
+    background: var(--hospital-teal);
+}
+/* Hospital Home Page Styles */
+.hospital-home {
+    padding: 2rem 0;
+}
+
+.hospital-logo-container {
+    margin: 2rem auto;
+    padding: 1rem;
+    max-width: 300px;
+}
+
+.hospital-logo {
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* If you want to add a hover effect to the buttons */
+.btn-lg {
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgb(231, 234, 233);
+}
+
+.btn-secondary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgb(255, 255, 255);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: var(--hospital-blue);
+    box-shadow: 0 0 0 3px rgba(169, 196, 16, 0.648);
+}
+
+.btn-login {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, var(--hospital-blue), var(--hospital-teal));
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+
+.btn-login:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 102, 204, 0.3);
+}
+
+.login-options {
+    display: flex;
+    gap: 15px;
+    margin: 25px 0;
+    justify-content: center;
+}
+
+.btn-role {
+    padding: 8px 20px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-admin {
+    background-color: var(--hospital-white);
+    color: var(--hospital-blue);
+    border: 2px solid var(--hospital-blue);
+}
+
+.btn-admin:hover {
+    background-color: var(--hospital-blue);
+    color: white;
+}
+
+.btn-patient {
+    background-color: var(--hospital-white);
+    color: var(--hospital-green);
+    border: 2px solid var(--hospital-green);
+}
+
+.btn-patient:hover {
+    background-color: var(--hospital-green);
+    color: white;
+}
+
+.login-footer {
+    text-align: center;
+    margin-top: 20px;
+    color: #64748b;
+}
+
+.login-footer a {
+    color: var(--hospital-teal);
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.login-footer a:hover {
+    text-decoration: underline;
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .login-box {
+        flex-direction: column;
+    }
+
+    .login-left {
+        display: none;
+    }
+
+    .login-right {
+        padding: 30px 20px;
+    }
+
+    .login-options {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .btn-role {
+        width: 100%;
+    }
+}

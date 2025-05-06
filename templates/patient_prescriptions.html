@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>My Prescriptions</h2>
+
+{% if prescriptions %}
+<div class="list-group">
+    {% for pres in prescriptions %}
+    <a href="{{ url_for('view_prescription', prescription_id=pres.id) }}" 
+       class="list-group-item list-group-item-action">
+        <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">Prescription #{{ pres.id }}</h5>
+            <small>{{ pres.date }}</small>
+        </div>
+        <p class="mb-1">
+            <strong>Doctor:</strong> {{ pres.doctor }} | 
+            <strong>Total:</strong> ${{ "%.2f"|format(pres.total) }} | 
+            <strong>Status:</strong> 
+            {% if pres.paid %}
+            <span class="text-success">Paid</span>
+            {% else %}
+            <span class="text-danger">Unpaid</span>
+            {% endif %}
+        </p>
+    </a>
+    {% endfor %}
+</div>
+{% else %}
+<div class="alert alert-info">You have no prescriptions yet.</div>
+{% endif %}
+{% endblock %}

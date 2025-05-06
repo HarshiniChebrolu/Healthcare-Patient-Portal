@@ -1,0 +1,10 @@
+<!-- Add to your navigation template -->
+{% if session.get('admin') %}
+<li class="nav-item">
+    <a class="nav-link" href="{{ url_for('prescribe_medicine') }}">Create Prescription</a>
+</li>
+{% endif %}
+
+<li class="nav-item">
+    <a class="nav-link" href="{{ url_for('patient_prescriptions') }}">My Prescriptions</a>
+</li>

@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Create New Prescription</h2>
+<form method="POST">
+    <div class="form-group">
+        <label for="patient">Patient</label>
+        <select class="form-control" id="patient" name="patient" required>
+            {% for patient in patients %}
+            <option value="{{ patient }}">{{ patient }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    
+    <div id="medicine-container">
+        <div class="medicine-item mb-3 p-3 border">
+            <div class="row">
+                <div class="col-md-5">
+                    <label>Medicine</label>
+                    <select class="form-control" name="medicine_id[]" required>
+                        {% for med in medicines %}
+                        <option value="{{ med.id }}">{{ med.name }} - ${{ "%.2f"|format(med.price) }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label>Quantity</label>
+                    <input type="number" class="form-control" name="quantity[]" min="1" value="1" required>
+                </div>
+                <div class="col-md-4">
+                    <label>Instructions</label>
+                    <input type="text" class="form-control" name="instructions[]" placeholder="Take twice daily..." required>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <button type="button" class="btn btn-secondary mb-3" id="add-medicine">Add Another Medicine</button>
+    
+    <div class="form-group">
+        <label for="notes">Additional Notes</label>
+        <textarea class="form-control" id="notes" name="notes" rows="3"></textarea>
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Create Prescription</button>
+</form>
+
+<script>
+document.getElementById('add-medicine').addEventListener('click', function() {
+    const container = document.getElementById('medicine-container');
+    const newItem = container.firstElementChild.cloneNode(true);
+    const inputs = newItem.querySelectorAll('input');
+    inputs.forEach(input => input.value = '');
+    container.appendChild(newItem);
+});
+</script>
+{% endblock %}

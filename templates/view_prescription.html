@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h3>Prescription #{{ prescription.id }}</h3>
+    </div>
+    <div class="card-body">
+        <p><strong>Date:</strong> {{ prescription.date }}</p>
+        <p><strong>Doctor:</strong> {{ prescription.doctor }}</p>
+        <p><strong>Patient:</strong> {{ prescription.patient }}</p>
+        
+        <h4 class="mt-4">Medicines</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Medicine</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Subtotal</th>
+                    <th>Instructions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for med in prescription.medicines %}
+                <tr>
+                    <td>{{ med.name }}</td>
+                    <td>{{ med.quantity }}</td>
+                    <td>${{ "%.2f"|format(med.price) }}</td>
+                    <td>${{ "%.2f"|format(med.subtotal) }}</td>
+                    <td>{{ med.instructions }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th colspan="3">Total</th>
+                    <th colspan="2">${{ "%.2f"|format(prescription.total) }}</th>
+                </tr>
+            </tfoot>
+        </table>
+        
+        {% if prescription.notes %}
+        <div class="alert alert-info">
+            <strong>Doctor's Notes:</strong> {{ prescription.notes }}
+        </div>
+        {% endif %}
+        
+        {% if not is_doctor and not prescription.paid %}
+        <form method="POST" action="{{ url_for('pay_prescription', prescription_id=prescription.id) }}">
+            <button type="submit" class="btn btn-success">Pay Now</button>
+        </form>
+        {% elif prescription.paid %}
+        <div class="alert alert-success">This prescription has been paid</div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

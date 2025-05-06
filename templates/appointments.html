@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointments</title>
+</head>
+<body>
+    <h1>Appointments</h1>
+    
+    <h3>Schedule New Appointment</h3>
+    <form action="/appointments" method="POST">
+        <label for="doctor">Doctor:</label>
+        <input type="text" id="doctor" name="doctor" required><br><br>
+
+        <label for="date">Date (YYYY-MM-DD):</label>
+        <input type="date" id="date" name="date" required><br><br>
+
+        <label for="time">Time (HH:MM):</label>
+        <input type="time" id="time" name="time" required><br><br>
+
+        <label for="reason">Reason for Visit:</label>
+        <input type="text" id="reason" name="reason"><br><br>
+
+        <label for="recurring">Recurring Appointment:</label>
+        <input type="checkbox" id="recurring" name="recurring"><br><br>
+
+        <label for="recurrence">Recurrence (e.g., weekly, monthly):</label>
+        <input type="text" id="recurrence" name="recurrence"><br><br>
+
+        <button type="submit">Save Appointment</button>
+    </form>
+
+    <h3>Upcoming Appointments</h3>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Doctor</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Reason</th>
+                <th>Recurring</th>
+                <th>Recurrence</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for appointment in appointments %}
+            <tr>
+                <td>{{ appointment.doctor }}</td>
+                <td>{{ appointment.date }}</td>
+                <td>{{ appointment.time }}</td>
+                <td>{{ appointment.reason }}</td>
+                <td>{{ 'Yes' if appointment.recurring else 'No' }}</td>
+                <td>{{ appointment.recurrence }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
